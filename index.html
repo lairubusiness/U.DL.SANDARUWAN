@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Forum&family=Glacial+Indifference:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link rel="icon" type="image/png" href="/favicon.ico" />
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -92,7 +92,7 @@
                 </h1>
                 <div class="subtitle">
                     <span class="typing-text"></span>
-                    <span class="cursor">|</span>
+                    <span class="cursor"></span>
                 </div>
                 <div class="hero-buttons">
                     <a href="#contact" class="btn btn-primary">Hire Me</a>
@@ -588,7 +588,125 @@
     </a>
 
     <!-- JavaScript Files -->
-  <!-- Replace old script tags with Vite's entry point -->
-<script type="module" src="/src/main.jsx"></script>
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    
+    <!-- Typing Effect Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const roles = [
+                'Web & Mobile App Developer',
+                'Digital Artist',
+                'Graphic Designer',
+                'Entrepreneur'
+            ];
+            
+            const typingText = document.querySelector('.typing-text');
+            let roleIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            // Slower and more visible typing effect
+            let typingSpeed = 70; // milliseconds per character (comfortable typing speed)
+            let delayBetweenTexts = 2000; // 2 seconds pause between texts
+            let deleteSpeed = 35; // milliseconds per character when deleting
+            
+            // Ensure the subtitle container has enough space
+            const subtitle = document.querySelector('.subtitle');
+            if (subtitle) {
+                subtitle.style.minHeight = '2.5rem'; // Ensure enough height for text
+                subtitle.style.display = 'flex';
+                subtitle.style.alignItems = 'center';
+                subtitle.style.justifyContent = 'center';
+            }
+            
+            function type() {
+                const currentRole = roles[roleIndex];
+                
+                if (!isDeleting && charIndex < currentRole.length) {
+                    // Typing
+                    typingText.textContent = currentRole.substring(0, charIndex + 1);
+                    charIndex++;
+                    setTimeout(type, typingSpeed);
+                } else if (!isDeleting) {
+                    // Pause at the end of typing
+                    isDeleting = true;
+                    setTimeout(type, delayBetweenTexts);
+                } else if (isDeleting && charIndex > 0) {
+                    // Deleting
+                    typingText.textContent = currentRole.substring(0, charIndex - 1);
+                    charIndex--;
+                    setTimeout(type, deleteSpeed);
+                } else {
+                    // Move to next role
+                    isDeleting = false;
+                    roleIndex = (roleIndex + 1) % roles.length;
+                    setTimeout(type, typingSpeed);
+                }
+            }
+            
+            // Start the typing effect after a short delay
+            setTimeout(type, 1000);
+            
+            // Cursor blink effect
+            setInterval(function() {
+                const cursor = document.createElement('span');
+                cursor.className = 'cursor';
+                cursor.textContent = '|';
+                
+                // Remove existing cursor if it exists
+                const existingCursor = document.querySelector('.cursor');
+                if (existingCursor) {
+                    existingCursor.remove();
+                }
+                
+                // Add cursor after text
+                typingText.appendChild(cursor);
+            }, 500);
+        });
+        
+        // Add styles for the typing effect
+        const style = document.createElement('style');
+        style.textContent = `
+            .typing-text {
+                display: inline-block;
+                min-height: 1.5em;
+                min-width: 20rem; /* Ensure minimum width to prevent layout shift */
+                vertical-align: middle;
+                position: relative;
+                font-size: 1.2rem;
+                color: #94a3b8;
+                font-weight: 400;
+                text-align: center;
+                line-height: 1.5;
+            }
+            
+            .cursor {
+                display: inline-block;
+                width: 3px;
+                height: 1.4rem;
+                background-color: #0ea5e9; /* Brighter blue color for better visibility */
+                margin-left: 4px;
+                margin-bottom: -2px;
+                animation: blink 0.8s infinite;
+                vertical-align: middle;
+                border-radius: 2px;
+            }
+            
+            @keyframes blink {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.5; }
+            }
+            
+            .subtitle {
+                min-height: 2.5rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 1rem 0;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+    <script type="module" src="/src/main.tsx"></script>
 </body>
-</html>  
+</html>

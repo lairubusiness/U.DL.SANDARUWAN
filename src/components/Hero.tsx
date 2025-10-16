@@ -1,7 +1,9 @@
 import { useEffect, useRef } from "react";
 import { motion } from "motion/react";
-import frontImage from "figma:asset/e2f1c1e2ca16483c814e6390e8cb07b34079ea1d.png";
-import graduationImage from "figma:asset/f898f55183b72144cfe15c17f2685710a541ea20.png";
+// Using absolute paths from the public directory
+const frontImage = "/images/me.png";
+const graduationImage = "/images/behaind.png";
+
 
 export function Hero() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -209,12 +211,12 @@ export function Hero() {
         </motion.h1>
         
         <motion.div
-          className="subtitle font-glacial text-[#94a3b8] tracking-[2px]"
+          className="subtitle font-glacial text-[#94a3b8] tracking-[2px] min-h-[2rem] flex items-center"
           initial={{ opacity: 0, translateY: 20 }}
           animate={{ opacity: 1, translateY: 0 }}
           transition={{ duration: 1, delay: 1.3 }}
         >
-          Web Developer
+          <span className="typing-text"></span>
         </motion.div>
       </div>
     </div>
